@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+pre {
+    overflow: auto;
+    word-wrap: normal;
+    margin: 0;
+    padding: .85em 1em;
+    margin-bottom: 1.275em;
+    background: #f7f7f7
+}
+</style>
+<title>avalon学习及示例</title>
+</head>
+<body>
+<h2>avalon学习示例</h2>
+<p><a href="http://avalonjs.coding.me/" target=_blank>http://avalonjs.coding.me/</a> 官方教程</p>
+<p><a href="https://github.com/RubyLouvre/avalon">https://github.com/RubyLouvre/avalon</a> 官方repo</p>
+<h2 id="domready后如何扫描">domReady后如何扫描</h2>
+<pre><code class="lang-javascript">$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+   <span class="hljs-keyword">var</span> vm = avalon.define({<span class="hljs-comment">/* */</span>})
+   <span class="hljs-comment">//如果你将vm定义在jQuery的ready方法内部,那么avalon的扫描就会失效,需要手动扫描</span>
+   avalon.scan(<span class="hljs-built_in">document</span>.body) <span class="hljs-comment">//现在只要传入扫描范围的根节点就行</span>
+})
+</code>
+</pre>
+<h2 id="如何ajax提交数据">如何AJAX提交数据</h2>
+<p>提交整个VM</p>
+<pre><code class="lang-javascript">jQuery.ajax({
+   method: <span class="hljs-string">"POST"</span>,
+   url: <span class="hljs-string">'url-adress'</span>,
+   <span class="hljs-comment">//这里是取vm的数据模型 ,通过JSON.stringify会去掉其所有方法, 变成JSON字符串</span>
+   <span class="hljs-comment">//再用JSON.parse变回纯JS对象</span>
+   data: <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(vm.$model))
+})
+</code></pre>
+<h2 id="如何让后台回来的数据更新vm">如何让后台回来的数据更新VM</h2>
+<p>后台的数据更新VM,只能是更新VM的某些已经定义属性. 如果后台数据很大,那么我们可以定义一个空对象(假如后台数据是对象类型)或一个空数组(假如后台数据是数组类型)来占位</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> vm = avalon.define({
+    $id: <span class="hljs-string">'aaa'</span>,
+    array: []
+})
+
+jQuery.ajax({
+   method: <span class="hljs-string">"POST"</span>,
+   url: <span class="hljs-string">'url-adress'</span>,
+   data: {<span class="hljs-comment">/**/</span>},
+   success: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>{
+     vm.array = data.array
+  }
+})
+</code></pre>
+<h2 id="如何同步表单的数据">如何同步表单的数据</h2>
+<p>假如我的某个表单是用于jQuery的日历插件,那么它数据如何同步到vm</p>
+<pre><code class="lang-javascript">$(datepick_input_css_selector).input(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+   vm.aaa = <span class="hljs-keyword">this</span>.value
+})
+</code></pre>
+<p>如何同步复选框 在avalon中,checkbox要对应一个数组 首选是取得所有同名的checkbox,并要求它们在选中状态,然后用map方法收集它们的value值</p>
+<pre><code class="lang-javascript">$(<span class="hljs-string">'checkbox'</span>).change(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+   <span class="hljs-keyword">var</span> array = $(<span class="hljs-string">'checkbox[name="'</span>+<span class="hljs-keyword">this</span>.name+<span class="hljs-string">'"]:checked'</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">return</span> $(<span class="hljs-keyword">this</span>).val();
+   })
+   vm.checkboxProps = array
+})
+</code></pre>
+<p>如何同步下拉框（lesson06.html里面有另外一种方法，使用ms-duplex同步更新）</p>
+<pre><code class="lang-javascript">$(<span class="hljs-string">'select'</span>).change(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+   vm.selectProps = $(<span class="hljs-keyword">this</span>).val()
+})
+</code></pre>
+<p>&nbsp;</p>
+<p>以下示例，基于avalon 2.2.9</p>
+<p><a href="study1a.html">study1a.html</a> 综合案例</p>
+<p><a href="lesson03.html">lesson03.html</a> watch数据的修改，如果修改则触发事件</p>
+<p><a href="lesson04.html">lesson04.html</a> toggle切换显示/隐藏</p>
+<p><a href="lesson04a.html">lesson04a.html</a> toggle切换显示/隐藏包括子元素</p>
+<p><a href="lesson04b.html">lesson04b.html</a> toggle切换显示/隐藏用于tab式面板切换</p>
+<p><a href="lesson05.html">lesson05.html</a> ms-attr属性操作</p>
+<p><a href="lesson06.html">lesson06.html</a> ms-css样式操作 &lt;select ms-duplex="@background"&gt;动态更新示例</p>
+<p><a href="lesson06a.html">lesson06a.html</a> 基于样式更新的进度条</p>
+<p><a href="lesson06b.html">lesson06b.html</a> 根据输入内容动态改变样式</p>
+<p><a href="lesson07.html">lesson07.html</a> 改变样式类名</p>
+<p><a href="lesson07a.html">lesson07a.html</a> 鼠标hover动态样式</p>
+<p><a href="lesson08.html">lesson08.html</a> 使用ms-if表达式来控制样式</p>
+<p><a href="lesson09.html">lesson09.html</a> 循环操作样例</p>
+<p><a href="lesson09a.html">lesson09a.html</a> 二维数组嵌套循环以及数据动态更新</p>
+<p><a href="lesson09b.html">lesson09b.html</a> 数组的插入、删除、排序等操作</p>
+<p><a href="lesson09c.html">lesson09c.html</a> 大批量数据更新及渲染的性能测试</p>
+<p><a href="lesson10.html">lesson10.html</a> 事件回调传参</p>
+<p><a href="lesson10a.html">lesson10a.html</a> 一个元素绑定多个同种事件的回调</p>
+<p><a href="lesson10b.html">lesson10b.html</a> 一个对象触发多个mouseenter事件</p>
+<p><a href="lesson10c.html">lesson10c.html</a> mouseenter和mouseleave事件</p>
+<p><a href="lesson10d.html">lesson10d.html</a> 鼠标滚轮事件</p>
+<p><a href="lesson-arrayman.html">lesson-arrayman.html</a> 动态删除一行</p>
+<p><a href="lesson-attr.html">lesson-attr.html</a> 通过属性来动态修改链接和加载图片</p>
+<p><a href="lesson-autocomplete.html">lesson-autocomplete.html</a> 自动完成匹配例子</p>
+<p><a href="lesson-conv.html">lesson-conv.html</a> 多选框的用法</p>
+<p><a href="lesson-filter01.html">lesson-filter01.html</a> 各种日期格式化，数字保留小数点后位数，四舍五入</p>
+<p><a href="lesson-filter02.html">lesson-filter02.html</a> limitBy过滤</p>
+<p><a href="lesson-filter03.html">lesson-filter03.html</a> 选择用哪一列进行排序，递增还是递减</p>
+<p><a href="lesson-filter04.html">lesson-filter04.html</a> 根据自定义函数条件过滤</p>
+<p><a href="lesson-filter05.html">lesson-filter05.html</a> filterBy 使用自定义函数和自定义参数</p>
+<p><a href="lesson-filter06.html">lesson-filter06.html</a> selectBy 的灵活运用</p>
+<p><a href="lesson-filter07.html">lesson-filter07.html</a> ms-attr属性调用自定义函数进行定制</p>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="./dist/avalon.js" ></script>
+        <script>
+            var vm = avalon.define({
+                $id: "test",
+                aaa: ['aaa','bbb','ccc'],
+				bbb: {a: 1, b: 2, c: 3},
+				ccc: [{K:'K1', L:'L1', M:'M1'},{K:'K2', L:'L2', M:'M2'}]
+            })
+        </script>
+    </head>
+    <body ms-controller="test">
+        <ul>
+			<li ms-for="(k1, el) in @aaa">{{k1}}-{{el}}</li>
+		</ul>
+		<ul>
+			<li ms-for="(k, v) in @bbb">{{k}}-{{v}}</li>
+		</ul>
+		<table border='1'>
+			<tr ms-for="row in @ccc">
+				<td ms-for="(k, cell) in row">{{k}}-{{cell}}</td>
+			</tr>
+		</table>
+		<hr />
+		<table border='1'>
+			<tr ms-for="row in @ccc">
+				<td ms-for="(k, cell) in row|selectBy(['L','M'])">{{k}}-{{cell}}</td>
+			</tr>
+		</table>
+    </body>
+</html>

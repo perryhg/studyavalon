@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>avalon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="dist/avalon.js"></script>
+    <script>
+        avalon.config({
+            interpolate: ["{&", "&}"]
+        })
+        avalon.define({
+            $id: 'test',
+            aaa: 111,
+            bbb: 222
+        })
+    </script>
+</head>
+
+<body>
+    <div ms-controller="test">
+        <p ms-text="##aaa"></p>
+        <p>{& ##aaa &}</p>
+    </div>
+	<!-- <button onclick="click_to_change()">click me</button> -->
+</body>
+</html>
+<script type="text/javascript">
+function click_to_change()
+{
+	avalon.define({
+            $id: 'test',
+            aaa: 555,
+            bbb: 222
+    })
+}
+</script>

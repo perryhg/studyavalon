@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="./dist/avalon.js"></script>
+        <script>
+		  var vm1 = avalon.define({
+			  $id: 'test',
+			  aaa: [1, 2]
+		  })
+		  
+		  var vm2 = avalon.define({
+			  $id: 'test1',
+			  aaa: [1, 2]
+		  })
+
+        </script>
+    </head>
+    <body ms-controller="test">
+	
+	<div ms-controller="test">
+	  错误的方法
+      <input type="checkbox" value="1" ms-duplex="@aaa">
+      <input type="checkbox" value="2" ms-duplex="@aaa">
+      <input type="checkbox" value="3" ms-duplex="@aaa">
+      <p>{{@aaa}}</p>
+	</div>
+	<div ms-controller="test1">
+	  正确的方法
+	  <input type="checkbox" value="1" ms-duplex-number="@aaa">
+      <input type="checkbox" value="2" ms-duplex-number="@aaa">
+      <input type="checkbox" value="3" ms-duplex-number="@aaa">
+      <p>{{@aaa}}</p>
+	</div>
+    </body>
+</html>

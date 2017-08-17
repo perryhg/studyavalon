@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>lesson05</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./dist/avalon.js"></script>
+       
+        <script>
+           
+            var vm = avalon.define({
+                $id: 'test',
+                aaa: 'zzz',
+                title:'ttttt',
+				src: 'sss',
+				lang: 'llll',
+				ddd: '一二三四五六七八九十0123456789ABCDEF',
+				eee: '<!-- pre -->'
+            })
+			
+			avalon.define({
+				$id: "number",
+				aaa: 1234.56789
+			})
+			
+			avalon.define({
+				$id: 'testtest',
+				name: "大跃进右",
+				d1: new Date,
+				d2: "2011/07/08",
+				d3: "2011-07-08",
+				d4: "02-01-2000",
+				d5: "03 04,2000",
+				d6: "3 4,2000",
+				d7: 1373021259229,
+				d8: "1373021259229",
+				d9: "2014-12-07T22:50:58+08:00",
+				d10: "\/Date(1373021259229)\/",
+				d11: "2014-12-07 22:50:58"
+
+			})
+            
+            //vm.a = 999
+            //vm.aaa.bbb.ccc = 777
+            //console.log(vm.$model)
+        </script>
+    </head>
+    <body>
+		<div ms-controller="test">
+        <div  aaa='ddd' bbb=333 
+            ms-attr='{title: @title,ddd:@src, lang:@lang}' >{{@src ? 333: 'empty'}}</div>
+      <input ms-duplex="@src"/>
+		<div>{{@aaa | uppercase}}</div>
+		<div>{{@ddd | truncate(10,'...')}}</div>
+		<div>{{@eee | escape}}</div>
+		</div>
+		
+		<div ms-controller="number">
+			<p>输入数字:
+				<input ms-duplex="@aaa">
+			</p>
+			<p>不处理：{{@aaa}}</p>
+			<p>不传参：{{@aaa|number}}</p>
+			<p>不保留小数：{{@aaa|number(0)}}</p>
+			<p>{{@aaa}}四舍五入保留2位小数：{{@aaa|number(2)}}</p>
+			<p>负数:{{-@aaa|number(4)}}</p>
+		</div>
+		
+		<div ms-controller="testtest">
+			<p>d1  生成于{{ @d1 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d2  生成于{{ @d2 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d3  生成于{{ @d3 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d4  生成于{{ @d4 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d5  生成于{{ @d5 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d6  生成于{{ @d6 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d7  生成于{{ @d7 | date("yyyy MM dd:HH:mm:ss")}}</p>
+			<p>d8  生成于{{ @d8 | date("yyyy MM dd HH:mm:ss")}}</p>
+			<p>d9  生成于{{ @d9 | date("yyyy MM dd:HH:mm:ss")}} //这是ISO8601的日期格式</p>
+			<p>d10 生成于{{ @d10| date("yyyy MM dd:HH:mm:ss")}} //这是ASP.NET输出的JSON数据的日期格式</p>
+			<p>d11 生成于{{ @d11| date("yyyy MM dd:HH:mm:ss")}} //这是数据库出来的格式</p>
+		</div>
+    </body>
+</html>

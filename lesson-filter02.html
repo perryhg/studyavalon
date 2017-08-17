@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>limitBy</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./dist/avalon.js"></script>
+       
+        <script>
+           
+            avalon.define({
+				$id: "limitBy",
+				array: [1, 2, 3, 4, 5, 6],
+				object: {a: 1, b: 2, c: 3, d: 4, e: 5},
+				num: 3
+			})
+            
+            //vm.a = 999
+            //vm.aaa.bbb.ccc = 777
+            //console.log(vm.$model)
+        </script>
+    </head>
+    <body>
+		<div ms-controller='limitBy'>
+			<select ms-duplex-number='@num'>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+			<ul>
+				<li ms-for='el in @array | limitBy(@num)'>{{el}}</li>
+			</ul>
+			<ul>
+				<li ms-for='(idx,el) in @object | limitBy(@num)'>{{idx}}-{{el}}</li>
+			</ul>
+		</div>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>lesson05</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./dist/avalon.js"></script>
+       
+        <script>
+           
+            var vm = avalon.define({
+                $id: 'test',
+                aaa: 'zzz',
+                title:'ttttt',
+				src: 'sss',
+				lang: 'llll'
+            })
+            
+            //vm.a = 999
+            //vm.aaa.bbb.ccc = 777
+            //console.log(vm.$model)
+        </script>
+    </head>
+    <body ms-controller="test">
+    <div ms-for="(idx, el) in @arr">
+        {{el.name}}<button type="button" ms-click="@arr.removeAt(idx)">点我删除该行</button>
+    </div>
+    <script>
+    avalon.define({
+        $id: 'test',
+        arr: [{name:'1a'},{name:'2b'},{name:'3c'},{name:'4'},{name:'5a'},{name:'5b'},{name:'6'}]
+    })
+    </script>
+</body>
+</html>

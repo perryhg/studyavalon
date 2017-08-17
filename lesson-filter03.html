@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>orderBy</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./dist/avalon.js"></script>
+       
+        <script>
+           
+            avalon.define({
+				$id: "orderBy",
+				array: [{a: 1, b: 33},{a: 2, b: 22}, {a: 3, b: 11}],
+				order: 'a',
+				dir: -1
+			})
+            
+            //vm.a = 999
+            //vm.aaa.bbb.ccc = 777
+            //console.log(vm.$model)
+        </script>
+    </head>
+    <body>
+		<div ms-controller='orderBy'>
+			<select ms-duplex='@order'>
+				<option>a</option>
+				<option>b</option>
+			</select>
+			<select ms-duplex-number='@dir'>
+				<option>1</option>
+				<option>-1</option>
+			</select>
+			<table border='1' width='200'>
+				<tr ms-for="el in @array | orderBy(@order, @dir)">
+					<td ms-for='elem in el'>{{elem}}</td>
+				</tr>
+			</table>
+		</div>
+    </body>
+</html>

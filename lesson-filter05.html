@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>filter05-filterBy2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./dist/avalon.js"></script>
+       
+        <script>
+           
+            var vm = avalon.define({
+				$id: 'test',
+				 arr: [{color: 'red'},{color:'green'},{color:'red'}],
+				 fn: function(el, index, xxx){
+					 console.log(el, index, xxx)
+					 return el.color === 'red'
+				 }
+			})
+            
+            //vm.a = 999
+            //vm.aaa.bbb.ccc = 777
+            //console.log(vm.$model)
+			
+			var vm1 = avalon.define({
+				$id: 'test1',
+				arr: [{name: 'wanglin', age: 11},
+					{name: 'lin', age: 3},
+					{name: 'Hunt', age: 22},
+					{name: 'Joe', age: 33}],
+				fn: function(a){//过滤数组中 name属性值带lin中的元素
+					return  /lin/.test(a.name)
+				}
+			})
+			
+        </script>
+    </head>
+    <body>
+		<div ms-controller="test">
+			<ul>
+				<li ms-for="el in @arr | filterBy(@fn, 'yy')">{{el.color}}</li>
+			</ul>
+		</div>
+		<div ms-controller='test1' >    
+			<div ms-for="(index,el) in @arr as items | filterBy(@fn)" >
+				{{el.name}} -- {{items.length}}
+			</div>    
+		</div>
+		
+    </body>
+</html>
