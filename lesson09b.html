@@ -38,6 +38,14 @@
             avalon.define(definition)
 
         </script>
+		<style type="text/css">
+		ul{
+			background-color:#c5deeb;
+		}
+		.notice {
+			background-color:#ffe4c4;
+		}
+		</style>
     </head>
     <body ms-controller="test">
         <p>监控数组拥有以下方法，我们可以操作它们就能同步对应的区域</p>
@@ -59,6 +67,6 @@
         <p><button type='button' ms-click="@shift">对数组进行shift操作</button></p>
         <p><button type='button' ms-click="@pop">对数组进行pop操作</button></p>
         <p>当前数组的长度为<span style="color:red">{{@array.length}}</span>。</p>
-
+		<div class="notice">*观察以上蓝色区域里面的内容变化</div>
     </body>
 </html>

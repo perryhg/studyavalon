@@ -12,7 +12,7 @@
                 $id: 'test',
                 aaa: 'zzz',
                 title:'ttttt',
-				src: 'sss',
+				src: '有内容',
 				lang: 'llll'
             })
             
@@ -23,9 +23,9 @@
     </head>
     <body>
 		<div ms-controller="test">
-        <div  aaa='ddd' bbb=333 
-            ms-attr='{title: @src,ddd:@src, lang:@lang}' >{{@src ? 333: 'empty'}}</div>
-      <input ms-duplex="@src"/>
+        title:<div  aaa='ddd' bbb=333 
+            ms-attr='{title: @src,ddd:@src, lang:@lang}' >{{@src ? '有标题': '无标题'}}</div>
+      <input ms-duplex="@src"/> 删除格子内容，抬头部分会自动变化
 		</div>
     </body>
 </html>
