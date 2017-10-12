@@ -19,6 +19,11 @@
             //vm.a = 999
             //vm.aaa.bbb.ccc = 777
             //console.log(vm.$model)
+			var vm1 = avalon.define({
+				$id:'test1',
+				detail:{product_name:''},
+				pdname:'紧固件1'
+			});
         </script>
     </head>
     <body>
@@ -27,5 +32,17 @@
             ms-attr='{title: @src,ddd:@src, lang:@lang}' >{{@src ? '有标题': '无标题'}}</div>
       <input ms-duplex="@src"/> 删除格子内容，抬头部分会自动变化
 		</div>
+		<hr />
+		<div ms-controller="test1">
+		<input id="prepare" ms-duplex="@pdname"><button type="button" onclick="sync_data()">同步到右边</button>
+		<input ms-duplex="@detail.product_name" />
+		<input ms-attr="{value:@detail.product_name}" />
     </body>
+	<script>
+		function sync_data()
+		{
+			var from = document.getElementById('prepare').value;
+			vm1.detail.product_name = vm1.pdname;
+		}
+	</script>
 </html>
