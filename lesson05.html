@@ -4,6 +4,11 @@
         <title>lesson05</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+		.inputblock input{
+		margin:1em;
+		}
+		</style>
         <script src="./dist/avalon.js"></script>
        
         <script>
@@ -33,9 +38,10 @@
       <input ms-duplex="@src"/> 删除格子内容，抬头部分会自动变化
 		</div>
 		<hr />
-		<div ms-controller="test1">
-		<input id="prepare" ms-duplex="@pdname"><button type="button" onclick="sync_data()">同步到右边</button>
-		<input ms-duplex="@detail.product_name" />
+		<div ms-controller="test1" class="inputblock">
+		<input id="prepare" ms-duplex="@pdname"><button type="button" onclick="sync_data()">同步到下面</button>
+		<br/>
+		<input ms-duplex="@detail.product_name" />修改左边会同步到右边，但是修改右边不会同步到左边
 		<input ms-attr="{value:@detail.product_name}" />
     </body>
 	<script>
