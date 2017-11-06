@@ -24,7 +24,16 @@
 			
 			var vmtb1 = avalon.define({
 				$id:"table1",
-				array:[{id:3, name:'曹操',date:'2015-05-28','status':'in'},{id:5, name:'张辽',date:'2015-06-05','status':'in'},{id:7, name:'李典',date:'2015-04-13',status:'out'}]
+				array:[{id:3, name:'曹操',date:'2015-05-28','status':'in'},{id:5, name:'张辽',date:'2015-06-05','status':'in'},{id:7, name:'李典',date:'2015-04-13',status:'out'}],
+				del:function(index){
+					console.log('deleting index='+index);
+					vmtb1.array.removeAt(index);
+				},
+				popup:function(index){
+					console.log('xxxx index='+index);
+					//layer.msg('dddd index='+index);
+					showpopup(vmtb1.array[index], index);
+				}
 			});
 			
 			function objectifyForm(formArray) {//serialize data function
@@ -76,6 +85,7 @@
 				console.log('------');
 				console.log(rowdata);
 				console.log('======');
+				layer.msg('testtest');
 				layer.open({
 				  type: 1,
 				  area: ['600px', '240px'],
@@ -90,13 +100,13 @@
 			}
 			
 			$(function(){
-				$('.tbl_row').click(function(e){
-					console.log(e);
-					console.log(this);
-					tr_obj = this;
-					var idx = parseInt($(this).find('.tridx').text());
-					showpopup(vmtb1.array[idx], idx);
-				});
+				//$('.rowcell').click(function(e){
+				//	console.log(e);
+				//	console.log(this);
+				//	tr_obj = $(this).closest('tr')[0];
+				//	var idx = parseInt($(this).find('.tridx').text());
+				//	//showpopup(vmtb1.array[idx], idx);
+				//});
 			});
         </script>
     </head>
@@ -112,8 +122,8 @@
 		
 		<div ms-controller="table1">
 			<table border=1>
-				<tr><th>id</th><th>name</th><th>date</th><th>status</th></tr>
-				<tr ms-for="($index,el) in @array" class="tbl_row"><td>{{el.id}}<span class="tridx" style="display:none">{{$index}}</span></td><td>{{el.name}}</td><td>{{el.date}}</td><td>{{el.status}}</td></tr>
+				<tr><th>id</th><th>name</th><th>date</th><th>status</th><th>多种删除方式</th></tr>
+				<tr ms-for="($index,el) in @array" class="tbl_row"><td class="rowcell" ms-on-click="@popup($index)">{{el.id}}<span class="tridx" style="display:none">{{$index}}</span></td><td class="rowcell" ms-on-click="@popup($index)">{{el.name}}</td><td class="rowcell" ms-on-click="@popup($index)">{{el.date}}</td><td ms-on-click="@popup($index)">{{el.status}}</td><td><button ms-on-click="@del($index)">del</button><button ms-click="@array.removeAt($index)">del2</button></td></tr>
 			</table>
 			<div>点击表格中人物姓名进行编辑</div>
 		</div>
